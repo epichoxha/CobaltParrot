@@ -1,6 +1,6 @@
-# AggressorNotification
+# CobaltParrot
 
-Aggressor Notification Scripts for cobaltstrike. Can be run on cobaltstrike client OR the team server(headless)
+CobaltParrot Aggressor Notification Scripts for cobaltstrike. Can be run on cobaltstrike client OR the team server(headless)
 
 ### cobaltparrot.cna
 An aggressor script to send initial beacon callback notifications via Discord
