@@ -17,3 +17,5 @@ Sample notifications on discord/slack
 ```
 Initial Beacon cobaltpigeon, 1006977742 -> user@DESKTOP-D3DM34T/192.168.215.131/1.1.1.1/awesomelistener/x64
 ```
+
+Use provided agscript-auto-restart.sh for restart automation
